@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const baseURL = "http://localhost:8000/api/v1";
+const baseURL = "http://45.12.237.111:8000/api/v1";
 
 interface userProductType {
     tg_id: number;
