@@ -9,30 +9,29 @@ networks:
         - subnet: 11.10.228.0/24
         
 volumes:
-  db-data:
   admin-data:
 
 services:
-  postgres:
-    image: postgres:15.0
-    environment:
-      POSTGRES_DB: uc_magazine
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: inal_2411
-    ports:
+ # postgres:
+ #   image: postgres:15.0
+ #   environment:
+ #     POSTGRES_DB: dyadmagazsite_db
+ #     POSTGRES_USER: postgres
+ #     POSTGRES_PASSWORD: inal_2411
+ #   ports:
     # Use PGAdmin to access Postgres or via PGAdmin container to access psql.
-      - "5432"
-    volumes:
-      - db-data:/var/lib/postgresql/data
-    restart: always
-    healthcheck:
-      test: [ "CMD-SHELL", "pg_isready" ]
-      interval: 15s
-      timeout: 10s
-      retries: 10
-    networks:
-      example-network:
-        ipv4_address: 11.10.228.10
+ #     - "5432"
+ #   volumes:
+ #     - db-data:/var/lib/postgresql/data
+ #   restart: always
+ #   healthcheck:
+ #     test: [ "CMD-SHELL", "pg_isready" ]
+ #     interval: 15s
+ #     timeout: 10s
+ #     retries: 10
+ #   networks:
+ #     example-network:
+ #       ipv4_address: 11.10.228.10
     
   pgadmin:
     image: dpage/pgadmin4
@@ -78,14 +77,14 @@ services:
       dockerfile: Dockerfile
     environment:
       # Сюда твои переменные окружения, чтобы они в докер образе не палились. Они перезапишут .env файл и будут ипользоваться приложухой.
-      URL_DATABASE: postgresql+asyncpg://postgres:inal_2411@11.10.228.10:5432/uc_magazine
+      URL_DATABASE: postgresql+asyncpg://zako4ik:xuyslona228@31.128.46.35:5432/dyadmagazsite_db
       BOT_TOKEN: 7545580314:AAFDycADGlWkCWburPEVByp0uzZgJeTPbZ4
-    depends_on:
-      postgres:
-        condition: service_started
+  #  depends_on:
+  #    postgres:
+  #      condition: service_started
     ports:
     # Я тут порт открыл, чтобы можно было и так зайти без прокси, на всякий пожарный
-      - "8000:8000"
+      - "8000"
     networks:
       example-network:
         ipv4_address: 11.10.228.5
