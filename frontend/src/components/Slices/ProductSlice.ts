@@ -1,8 +1,7 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const baseURL = "http://localhost:8000/api/v1";
-
+const baseURL = "http://45.12.237.111:8000/api/v1";
 interface ProductType {
     title: string;
     price: number;
