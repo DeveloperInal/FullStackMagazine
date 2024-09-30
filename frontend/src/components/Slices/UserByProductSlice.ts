@@ -1,12 +1,14 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const baseURL = "http://45.12.237.111:8000/api/v1";
+const baseURL = "http://localhost:8000/api/v1";
 
 interface userProductType {
     tg_id: number;
     card_title: string;
+    price: number;
     by_product_date: string;
+    promocode: string;  // Backend generates this
 }
 
 interface userProductState {
@@ -21,20 +23,25 @@ const initialStateUser: userProductState = {
     error: null,
 };
 
+// Async thunk to send purchase data to the backend
 export const postUserByCardData = createAsyncThunk<
     userProductType[],
-    { tg_id: number; card_title: string; by_product_date: string },
+    { tg_id: number; card_title: string; price: number, promocode: string },
     { rejectValue: string }
 >(
     'user/postUserByCardData',
     async (data, thunkAPI) => {
         try {
-            const response = await axios.post(`${baseURL}/set_by_user_card`, data, {
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            });
-
+            const by_product_date = new Date().toISOString();  // Generate date for the purchase
+            const response = await axios.post(`${baseURL}/set_by_user_card`,
+                {
+                    ...data,
+                    by_product_date 
+                }, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                });
             return response.data;
         } catch (error: any) {
             return thunkAPI.rejectWithValue(error.response?.data?.message || error.message);
@@ -42,6 +49,7 @@ export const postUserByCardData = createAsyncThunk<
     }
 );
 
+// User slice to handle the Redux state
 const userSlice = createSlice({
     name: 'user',
     initialState: initialStateUser,
@@ -54,7 +62,7 @@ const userSlice = createSlice({
             })
             .addCase(postUserByCardData.fulfilled, (state, action) => {
                 state.loading = false;
-                state.list = action.payload;
+                state.list = [...state.list, ...action.payload];
             })
             .addCase(postUserByCardData.rejected, (state, action) => {
                 state.loading = false;

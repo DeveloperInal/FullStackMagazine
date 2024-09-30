@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
-import ProductCard from '../Card/ProductCard.tsx';
-import { useAppDispatch, useAppSelector } from "../../hooks/reduxHooks.ts";
-import { getCardData } from "../Slices/ProductSlice.ts";
+import ProductCard from '../Card/ProductCard';
+import { useAppDispatch, useAppSelector } from "../../hooks/reduxHooks";
+import { getCardData } from "../Slices/ProductSlice";
 
 export default function ProductList() {
     const dispatch = useAppDispatch();
@@ -19,16 +19,17 @@ export default function ProductList() {
         return <p>Error: {error}</p>;
     }
 
+
     return (
-        <div className="flex justify-center items-center mx-auto">
-            {products.map((product, index) => (
-                <ProductCard
-                    key={index}
-                    card_title={product.title}
-                    description={product.description}
-                    price={product.price}
-                />
-            ))}
-        </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 justify-items-center gap-2">
+                {products.map((product, index) => (
+                    <ProductCard
+                        key={index}
+                        card_title={product.title}
+                        price={product.price}
+                        imageUrl={product.image_url}
+                    />
+                ))}
+            </div>
     );
-};
+}
