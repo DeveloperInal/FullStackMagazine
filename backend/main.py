@@ -6,6 +6,7 @@ from core.database.model import create_tables
 from loguru import logger
 from api.v1.get_method import router as get_router
 from api.v1.set_method import router as set_router
+from api.v1.delete_method import router as delete_router
 from prometheus_fastapi_instrumentator import Instrumentator
 
 @asynccontextmanager
@@ -20,6 +21,7 @@ async def lifespan(app: FastAPI):
 app = FastAPI(lifespan=lifespan)
 app.include_router(get_router)
 app.include_router(set_router)
+app.include_router(delete_router)
 
 app.add_middleware(
     CORSMiddleware,
@@ -32,4 +34,4 @@ app.add_middleware(
 Instrumentator().instrument(app).expose(app)
 
 if __name__ == '__main__':
-    uvicorn.run("main:app", reload=True,host="0.0.0.0",port=8000)
+    uvicorn.run("main:app", reload=True) # для деплоя на Heroku
