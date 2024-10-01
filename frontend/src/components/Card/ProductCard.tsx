@@ -4,7 +4,7 @@ import ModalWin from "../ModalWin/ModalWin.tsx";
 interface ProductCardProps {
     card_title: string;
     price: number;
-    imageUrl: string; // Add imageUrl prop
+    imageUrl: string; 
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({ card_title, price, imageUrl }) => {
@@ -32,7 +32,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ card_title, price, imageUrl }
                 <img
                     src={imageUrl}
                     alt={card_title}
-                    className="object-cover rounded-t-2xl" // Image styling
+                    className="object-cover rounded-t-2xl" 
                 />
                 <div className="px-6 py-4">
                     <div className="font-bold mb-2 text-white text-4xl relative top-3">{card_title}</div>
