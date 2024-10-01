@@ -47,7 +47,7 @@ const ModalWin: React.FC<ModalWinProps> = ({ tg_user, onClose, card_title, price
     return (
         <div
             className={`fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center transition-opacity duration-300 ${isClosing ? 'opacity-0' : 'opacity-100'}`}
-            onClick={handleOutsideClick}  // Close when clicking outside modal
+            onClick={handleOutsideClick} 
         >
             <div
                 id="modal-content"
