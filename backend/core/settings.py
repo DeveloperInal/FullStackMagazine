@@ -1,15 +1,15 @@
 from pydantic import Field
-from pydantic_settings import BaseSettings
+from pydantic_settings import BaseSettings, SettingsConfigDict
 from dotenv import load_dotenv
-from os import getenv
 
 load_dotenv()
 class Settings(BaseSettings):
-    url_database: str = Field(getenv('URL_DATABASE'))
-    bot_token: str = Field(getenv('BOT_TOKEN'))
+    url_database: str = Field(alias='URL_DATABASE')
+    bot_token: str = Field(alias='BOT_TOKEN')
 
-    class Config:
-        env_file = '.env'
-        extra = 'forbid'
+    model_config = SettingsConfigDict(
+        env_file='.env',
+        extra='forbid'
+    )
 
 settings = Settings()

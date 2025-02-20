@@ -1,14 +1,7 @@
 from datetime import datetime
-from sqlalchemy.ext.asyncio import create_async_engine, AsyncAttrs, async_sessionmaker, AsyncSession
-from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
-from sqlalchemy import String, Integer, BigInteger, DateTime, ForeignKey, Boolean
-from core.settings import settings
-
-engine = create_async_engine(url=settings.url_database, echo=False)
-async_session = async_sessionmaker(bind=engine, expire_on_commit=True)
-
-class Base(DeclarativeBase, AsyncAttrs):
-    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+from sqlalchemy.orm import  Mapped, mapped_column, relationship
+from sqlalchemy import String, Integer, BigInteger, DateTime, ForeignKey
+from core.database.base import Base
 
 class UsersByProduct(Base):
     __tablename__ = 'users_by_product'
@@ -36,7 +29,3 @@ class PromocodTable(Base):
 
     promocode: Mapped[str] = mapped_column(String, nullable=False, unique=True)
     title: Mapped[str] = mapped_column(String, nullable=False)
-
-async def create_tables():
-    async with engine.begin() as conn:
-        await conn.run_sync(Base.metadata.create_all)
